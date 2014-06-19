@@ -1,0 +1,10 @@
+#ifndef PARAMETERS_H
+#define PARAMETERS_H
+
+#define NUMBER_OF_TYPES 2
+#define NUMBER_MAX_OF_THREADS_NOT_ALOCATES 100
+#define MIN_TIME_TO_SPAW 20
+#define MAX_TIME_TO_SPAW 2000
+
+
+#endif

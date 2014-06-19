@@ -1,0 +1,11 @@
+Fazer o scheduler
+Fazer os problemas 
+Fazer os Data
+Fazer o algoritmo de calculo de compessação de troca.
+	//leva em conta o desperdicio de threads
+
+
+Fazer a parametriçao de numero de pools 
+Fazer o tamanho da janela baseado no numero de pools e listas
+Fazer a parametrizaçao do tempo minimo de cricaçao de uma nova pessoa
+Fazer uma parametrizaçao de tempo maximo para se espera a criaçao de uma pessoa
