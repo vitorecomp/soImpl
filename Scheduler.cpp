@@ -138,8 +138,7 @@ void Scheduler::run()
 	out.message(ss.str(), i++, 12, 1);
 	ss.str("");
 
-/*
-	//ver se comṕença mudar de banheiros
+	//ver se compença mudar de banheiros
 	if(changeType()){
 		ss << "sim";
 		out.message(ss.str(), i++, 12, 1);
@@ -149,8 +148,7 @@ void Scheduler::run()
 		else
 			bathroom->changeType(Bathroom::Women);
 
-	}
-*/	
+	}	
 }
 
 int Scheduler::calculusOfPontuation(PeopleData data){
