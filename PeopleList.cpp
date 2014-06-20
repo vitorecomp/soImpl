@@ -31,16 +31,13 @@ void* thread_generatePerson(void *arg1)
 	{ 
 		pthread_mutex_lock(&plist->m_personsOnWait);
 		if(plist->personsOnWait.size() < NUMBER_MAX_OF_THREADS_NOT_ALOCATES){	
-			Person *person = new Person(plist->bathroom);
+			Person *person = new Person(plist->bathroom, plist->type);
 			plist->personsOnWait.push_back(person);
 			pthread_cond_signal(&plist->s_newPerson);
 		}
 		pthread_mutex_unlock (&plist->m_personsOnWait);
-				
 
-		int waitTime = rand() % MAX_TIME_TO_SPAW;
-		while(waitTime < MIN_TIME_TO_SPAW)
-			waitTime = rand() % MAX_TIME_TO_SPAW;
+		int waitTime = rand() % (MAX_TIME_TO_SPAW - MIN_TIME_TO_SPAW) + MIN_TIME_TO_SPAW;
 		usleep(waitTime*100);
 	}
 }
@@ -166,8 +163,6 @@ void* thread_makeInfos(void *arg1)
     	}
 		pthread_mutex_unlock (&plist->m_personsOnWait);
 		pthread_mutex_unlock (&plist->m_data);
-
-		
 	}
 }
 

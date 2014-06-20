@@ -2,9 +2,9 @@
 
 int Person::unicId = 0;
 
-Person::Person(Bathroom *bath)
+Person::Person(Bathroom *bath, int Iden)
 {
-	id = unicId++;
+	id = (Iden + 1)*10000 + unicId++;
 	this->bath = bath;
 	pthread_mutex_init(&finish, NULL);
 	pthread_mutex_init(&start_c, NULL);

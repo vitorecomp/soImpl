@@ -62,7 +62,7 @@ void Scheduler::run()
 	if(type == Bathroom::Women)
 		ss << "Woman";
 	else
-		ss << "Man";
+		ss << "Man  ";
 
 	out.message(ss.str(), i++, 15, 1);
 	ss.str("");
@@ -82,7 +82,7 @@ void Scheduler::run()
 
 		out.runGraph(data.avaranteTimeToExecution, j++);
 
-		ss << data.waitIds.size();
+		ss << data.waitIds.size() << "  ";
 		out.message(ss.str(), i++, 22, 1);
 		ss.str("");
 
@@ -106,30 +106,49 @@ void Scheduler::run()
 
 			for(list<int>::iterator p = data.executionsIds.begin(); p != data.executionsIds.end() && imp < maxE; p++, imp++){
 				ss << "Theread " << *p << "         ";
+
+				while(ss.str().length() < 23)
+					ss << " ";
 				out.message(ss.str(), lin++, 1, 2);
 				ss.str("");
 			}
+			while(ss.str().length() < 23)
+					ss << " ";
+			while(imp < maxE)
+			{
+				imp++;
+				out.message(ss.str(), lin++, 1, 2);
+			}
+			ss.str("");
 		}
 
 		if(data.type == Bathroom::Women)
 			ss << "Woman";
 		else
-			ss << "Man";
+			ss << "Man  ";
 		out.message(ss.str(), k++, 1, 3);
 		ss.str("");
 		
 
 		int imp = 0;
-		for(list<Tupla>::iterator p = data.waitIds.begin(); p != data.waitIds.end() , imp < max; p++, imp++){
-			if(p != data.waitIds.end()){
+		for(list<Tupla>::iterator p = data.waitIds.begin(); p != data.waitIds.end() && imp < max; p++, imp++){
 			ss << "Thr " << p->x << " wait " << p->y;
-			}
 
 			while(ss.str().length() < 23)
 				ss << " ";
 			out.message(ss.str(), k++, 1, 3);
 			ss.str("");
 		}
+		
+		while(ss.str().length() < 23)
+			ss << " ";
+		while(imp < max)
+		{
+			imp++;
+			out.message(ss.str(), k++, 1, 3);
+		}
+		ss.str("");
+
 		k++;
 		
 	}
@@ -155,7 +174,7 @@ int Scheduler::calculusOfPontuation(PeopleData data){
 	Bathroom::Type type = bathroom->getType();
 	int wait_list = data.waitIds.size();
 	int i=0;
-	int pontuation;
+	unsigned long int pontuation = 0;
 	for(list<Tupla>::iterator i = data.waitIds.begin(); i != data.waitIds.end(); ++i){
 		pontuation+=pow(i->y,2);
 	}

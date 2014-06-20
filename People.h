@@ -31,7 +31,7 @@ class Person
 	
 public:
 	void execute();
-	Person(Bathroom *);
+	Person(Bathroom *, int);
 	~Person();
 	bool terminei();
 	void run();

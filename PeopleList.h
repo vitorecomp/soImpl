@@ -7,7 +7,6 @@
 #include "parameters.h"
 
 
-
 class PeopleList
 {
 
