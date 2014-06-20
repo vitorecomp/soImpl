@@ -2,10 +2,9 @@
 
 int Bathroom::numberOfTypes = 2;
 
-
 Bathroom::Bathroom()
 {
-	this->maxNumber = 10;
+	this->maxNumber = NUMBER_OF_BATHROOMS;
 	this->nowType = Women;
 	this->ocuped = 0;
 	pthread_mutex_init(&this->m_changeType, NULL);
@@ -67,12 +66,12 @@ void Bathroom::getOne(Type type) throw (length_error, invalid_argument)
 {
 	pthread_mutex_lock(&m_changeType);
 	if(nowType != type){
-		pthread_mutex_unlock (&m_changeOcupedNumber);
+		pthread_mutex_unlock (&m_changeType);
 		throw invalid_argument("1 - Tipo diferente dos banheiros");
 	}
 
 	pthread_mutex_lock (&m_changeOcupedNumber);
-	if(ocuped < 10)
+	if(ocuped < maxNumber)
 	{
 		ocuped++;
 	}else{

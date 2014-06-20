@@ -69,7 +69,7 @@ public:
 	void message(string msg, int offx, int offy, int windowId) throw (invalid_argument);
 	void message(string msg, int offx, int offy, int windowId, Color)  throw (invalid_argument);
 
-	void runGraph(int value, int id);
+	void runGraph(unsigned long int  value, int id);
 	
 };
 

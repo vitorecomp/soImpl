@@ -8,21 +8,38 @@
 #include <time.h>
 #include <cstdlib>
 #include <cstdio>
+#include <csignal>
 
 OUT out;
 
+void signalHandler( int signum )
+{
+    cout << "Interrupt signal (" << signum << ") received.\n";
+
+    // cleanup and close up stuff here  
+    // terminate program  
+
+   exit(signum);  
+
+}
+
+
 int main()
 {
+	signal(	SIGABRT, signalHandler); 
 	srand(time(NULL));
-	
+	system("rm peopleThread.file");
+	system("rm sche.file");
+	system("rm test.file");
+	system("rm test2.file");
 	//inicializa as thread dos banheiros
 	Bathroom bathroom;
 
-	//incia a thread de criaçao de masculino
-	PeopleList listM(&bathroom, Bathroom::Women);
+	//incia a thread de criaçao de femino
+	PeopleList listW(&bathroom, Bathroom::Women);
 	
-	//start the thread of creation of femeale 
-	PeopleList listW(&bathroom, Bathroom::Men);
+	//start the thread of creation of males 
+	PeopleList listM(&bathroom, Bathroom::Men);
 	
 	//colonacando em uma list
 	list<PeopleList*> plist;

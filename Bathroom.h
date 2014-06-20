@@ -4,6 +4,7 @@
 #include <pthread.h>
 #include <stdexcept>	
 #include <list>
+#include "parameters.h"
 
 using namespace std;
 

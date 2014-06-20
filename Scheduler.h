@@ -9,6 +9,7 @@
 #include <string>
 #include <sstream>
 #include "out.h"
+#include <cmath>
 
 using namespace std;
 

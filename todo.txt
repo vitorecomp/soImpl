@@ -1,11 +1,21 @@
 Fazer o scheduler
-Fazer os problemas 
+//Fazer os problemas 
 Fazer os Data
 Fazer o algoritmo de calculo de compessação de troca.
-	//leva em conta o desperdicio de threads
+	leva em conta o desperdicio de threads
 
 
-Fazer a parametriçao de numero de pools 
+//Fazer a parametriçao de numero de pools 
 Fazer o tamanho da janela baseado no numero de pools e listas
-Fazer a parametrizaçao do tempo minimo de cricaçao de uma nova pessoa
-Fazer uma parametrizaçao de tempo maximo para se espera a criaçao de uma pessoa
+//Fazer a parametrizaçao do tempo minimo de cricaçao de uma nova pessoa
+//Fazer uma parametrizaçao de tempo maximo para se espera a criaçao de uma pessoa
+
+Scheduler.cpp:(.text+0x797): undefined reference to `Scheduler::calculusOfPontuation(PeopleData)'
+Scheduler.cpp:(.text+0x1161): undefined reference to `Scheduler::changeType()'
+Scheduler.cpp:(.text+0x123f): undefined reference to `Scheduler::highScore()'
+/tmp/cc5VMVeL.o: In function `thread_makeInfos(void*)':
+PeopleList.cpp:(.text+0xa3): undefined reference to `PeopleData::addExecutionAvarange(unsigned long)'
+PeopleList.cpp:(.text+0xae): undefined reference to `PeopleData::addFinishedWaitAvarange(unsigned long)'
+PeopleList.cpp:(.text+0xc6): undefined reference to `PeopleData::clearWaitingList()'
+PeopleList.cpp:(.text+0xf7): undefined reference to `PeopleData::addWaiting(unsigned long)'
+collect2: ld returned 1 exit status

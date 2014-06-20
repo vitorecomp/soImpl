@@ -1,9 +1,10 @@
 #include "out.h"
 
 OUT::OUT(){
-	size.x =45;
+	system("clear");
+	size.x =40;
 	size.y =100;
-	int i = system("resize -s 45 100");
+	int i = system("resize -s 40 100");
 	i += system("clear");
 	if(i > 100000)
 		i++;
@@ -17,7 +18,7 @@ OUT::OUT(){
 	info.id = 4;
 	info.uple = OutPoint(16, 0);
 	info.bori = OutPoint(22, 100);
-	info.max = 2000000;
+	info.max = 500;
 	info.min = 0;
 	info.legend = "Wait time[us] = ";
 	info.description = "Men avarenge wait time";
@@ -26,7 +27,7 @@ OUT::OUT(){
 	info.id = 5;
 	info.uple = OutPoint(23, 0);
 	info.bori = OutPoint(29, 100);
-	info.max = 2000000;
+	info.max = 500;
 	info.min = 0;
 	info.legend = "Wait time[us] = ";
 	info.description = "Women avarenge wait time";
@@ -266,12 +267,11 @@ void OUT::message(string msg, int offx, int offy, int id) throw (invalid_argumen
     size.x = bori.x - uple.x;
     size.y = bori.y - uple.y;
 
-
-	if(offx + msg.length()> size.x)
+	if(offx > size.x)
 		throw invalid_argument("menssagem fora dos limites da tela 'x'");
 
 
-	if(offy > size.y)
+	if(offy + msg.length()> size.y)
 		throw invalid_argument("menssagem fora dos limites da tela 'y'");
 
 
@@ -311,7 +311,7 @@ void OUT::message(string msg, int offx, int offy, int id, Color color) throw (in
 	pthread_mutex_unlock (&listLock);
 }
 
-OutCommand::OutCommand(int y, int x, string msg, OUT::Color color){
+OutCommand::OutCommand(int x, int y, string msg, OUT::Color color){
 	this->x = x;
 	this->y = y;
 	this->msg = msg;
@@ -320,7 +320,8 @@ OutCommand::OutCommand(int y, int x, string msg, OUT::Color color){
 
 void* thread_out(void *arg1){
 	OUT *out = (OUT*)arg1;
- 	out->run();
+	while(1)
+ 		out->run();
  	pthread_exit(NULL);
 }
 
@@ -333,12 +334,13 @@ void OUT::run(){
 	pthread_mutex_lock (&listLock);
 	if(!commands.empty()){
 		has = true;
-		out = commands.front();
-		commands.pop_front();
+		out = commands.back();
+		commands.pop_back();
 	}
 	pthread_mutex_unlock (&listLock);	
 
 	if(has){
+
 		move(out.x, out.y);
 		changeColor(out.color);
 		cout << out.msg;
@@ -350,7 +352,7 @@ void OUT::run(){
 
 }
 
-void OUT::runGraph(int value, int id)
+void OUT::runGraph(unsigned long int value, int id)
 {
 	BarGInfo info;
 	pthread_mutex_lock (&infoListsLock);
@@ -360,14 +362,24 @@ void OUT::runGraph(int value, int id)
 	    	}
     pthread_mutex_unlock (&infoListsLock);
 
-	changeColor(Default);
-	move(info.uple.x + 2, info.uple.y + 3);
-		cout << info.legend << value << " us";
+
 
 	stringstream ss;
+	ss << info.legend << value << " us               ";
+	OutCommand command(info.uple.x + 2, info.uple.y + 3, ss.str(), Default);
+
+	pthread_mutex_lock (&listLock);
+	commands.push_front(command);	
+	pthread_mutex_unlock (&listLock);
+
+
+	ss.str("");
+
+	double porcentagem = (double)value/(double)(info.max - info.min);
+	porcentagem = (porcentagem <= 1 && porcentagem >= 0) ? porcentagem : 1;
+	double barras = porcentagem * (info.bori.y - info.uple.y - 5);
+
 	Color color;
-	int porcentagem = (max - min)/value;
-	int barras = porcentagem * (info.bori.y - info.uple.y);
 	if(porcentagem < 0.33)
 		color = Green;
 	else if (porcentagem < 0.66)
@@ -375,10 +387,13 @@ void OUT::runGraph(int value, int id)
 	else 
 		color = Red;
 
-	for(int i = info.uple.y + 2; i < (info.bori.y - info.uple.y + 2)/2; i++)
+	for(int i = info.uple.y + 2; i < barras; i++)
 		ss << "=";
 
-	OutCommand command(info.uple.x + 3, info.uple.y + 3, ss.str(), Red);
+	for(int i = barras; i < (info.bori.y - info.uple.y) - 3; i++)
+		ss << " ";
+
+	command = OutCommand(info.uple.x + 3, info.uple.y + 3, ss.str(), color);
 
 	pthread_mutex_lock (&listLock);
 	commands.push_front(command);	
